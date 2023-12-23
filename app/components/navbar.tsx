@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-const Page = () =>{
+const Navbar = () =>{
   return(
     <div>
       <nav className="flex flex-row justify-center gap-4 my-4">
@@ -14,4 +14,4 @@ const Page = () =>{
     </div>
   )
 }
-export default Page;
+export default Navbar;
