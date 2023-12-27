@@ -1,5 +1,34 @@
+import axios from "axios"
+import { useEffect, useState } from "react"
 
-const Table = ({data}: any) =>{
+interface Product{
+  _id: string,
+ productName: string,
+ barCode: string,
+ category: string[],
+ price: number,
+ createdAt: string,
+ updatedAt: string,
+ __v:number
+}
+
+const Table= () =>{
+  const [data, setData] = useState<Product[]>([])
+
+  useEffect(() =>{
+    const fetchData = async() =>{
+      let Url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/product`;
+      try {
+        const response = await axios.get(Url)
+        setData(response.data)
+      } catch (error) {
+        console.error("Error Fetching Data")
+      }
+    }
+  fetchData()
+  },
+  []
+  )
   return(
     <div className="overflow-auto">
       <table className="divide-y divide-gray-600 max-w-screen-sm">
@@ -12,11 +41,11 @@ const Table = ({data}: any) =>{
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
           {
-            data.map( (row: any) =>(
-              <tr key={row.id} className="text-lg text-gray-600 font-medium">
+            data.map( (row) =>(
+              <tr key={row._id} className="text-lg text-gray-600 font-medium">
                 <td className="px-8 py-1">{row.productName}</td>
-                <td className="px-8 py-1">{row.category}</td>
-                <td className="px-8 py-1">{row.price}</td>
+                <td className="px-8 py-1">{row.category.join(', ')}</td>
+                <td className="flex px-8 py-1 justify-end">{row.price.toLocaleString()}</td>
               </tr>
             )
             )

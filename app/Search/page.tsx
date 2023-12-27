@@ -1,38 +1,48 @@
 'use client'
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import axios from "axios"
+
 import SearchBar from "../components/searchBar"
 import Table from "../components/table"
+import AddProductModal from "../components/addProductModal"
+
+interface Product{
+  _id: string,
+ productName: string,
+ barCode: string,
+ category: string[],
+ price: number,
+ createdAt: string,
+ updatedAt: string,
+ __v:number
+}
 
 const Page = () =>{ 
-  const dummy = [
-    {
-    id:1,
-    productName : 'Lifebuoy',
-    category: 'soap',
-    price: 4000
-    },
-    {
-      id:2,
-      productName : 'Kingkong',
-      category: 'Insectiside',
-      price: 5000
-    },
-    {
-      id:3,
-      productName : 'Roma Kelapa uwhduhwduwhdusjdnjsadn sdksks',
-      category: 'Food',
-      price: 9000
-    }
-  ]
-  const [data, setData] = useState(dummy)
+  const [isOpen, setIsOpen] = useState<boolean>(false)
+  const handleClick = () =>{
+    openModal()
+  }
+
+  const openModal = () =>{
+    setIsOpen(true)
+  }
+  const closeModal = () =>{
+    setIsOpen(false)
+  }
+  
+  
 
   return(
     <div className="bg-white min-h-screen overflow-hidden">
+      <AddProductModal isOpen={isOpen} onClose={closeModal}></AddProductModal>
       <div className="flex justify-center m-4">
         <SearchBar></SearchBar>
       </div>
-      <div className="flex justify-center">
-        <Table data= {data}></Table>
+      <div className="flex justify-center items-stretch">
+        <button className="bg-indigo-700 text-white rounded-md px-2 py-1 shadow-md hover:shadow-lg hover:scale-105 flex justify-end" onClick={handleClick}>Add</button>
+      </div>
+      <div className="flex justify-center my-8">
+        <Table></Table>
       </div>
       <div>
         
